@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
 {
     public NavMeshAgent enemy;
 
-    public float squareOfMovement = 20f;
+    public float squareOfMovement = 35f;
     private float xMin;
     private float xMax;
     private float zMin;
@@ -17,13 +17,17 @@ public class Enemy : MonoBehaviour
     private float yPosition;
     private float zPosition;
 
-    public float closeEnough = 2f;
+    public float closeEnough = 5f;
+    public float attackDistance = 2f;
 
-     void Start()
+    public GameObject player;
+
+    void Start()
     {
         xMin = zMin = -squareOfMovement;
         xMax = zMax = squareOfMovement; 
         newLocation();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update()
@@ -31,6 +35,11 @@ public class Enemy : MonoBehaviour
         if (Vector3.Distance(transform.position, new Vector3(xPosition, yPosition, zPosition)) <= closeEnough)
         {
             newLocation();
+        }
+
+        if (Vector3.Distance(transform.position, player.transform.position) <= attackDistance)
+        {
+            player.GetComponent<PlayerHealth>().TakeDamage(0.5f);
         }
     }
     public void newLocation()

@@ -8,7 +8,7 @@ public class EnemyAttackScript : MonoBehaviour
 {
     private Enemy enemyMovement;
     private Transform player;
-    public float closeEnough = 10f;
+    public float closeEnough = 20f;
 
     private Renderer rend;
 
