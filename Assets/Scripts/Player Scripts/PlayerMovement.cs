@@ -1,8 +1,8 @@
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 
 public class playerMovement : MonoBehaviour
 {
@@ -12,7 +12,6 @@ public class playerMovement : MonoBehaviour
     [SerializeField] private float runSpeed = 7f;
 
     private Vector3 moveDirection;
-    private Vector3 moveDirection2;
     private Vector3 moveDirectionX;
     private Vector3 moveDirectionZ;
     private Vector3 velocity;
@@ -23,11 +22,8 @@ public class playerMovement : MonoBehaviour
 
     private CharacterController characterController;
 
+    private bool isPlayerMovementEnabled = true;
 
-    private float baseLineGravity;
-    private float xMove;
-    private float zMove;
-    private Vector3 move;
     #endregion
 
     void Start()
@@ -35,17 +31,31 @@ public class playerMovement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
     }
 
-
     void Update()
     {
-        Move();
+        if (isPlayerMovementEnabled)
+        {
+            Debug.Log($"Gravity: {gravity}, Velocity: {velocity.y}");
+
+            Move();
+        }
+        else
+        {
+            Debug.Log($"Gravity: {gravity}, Velocity: {velocity.y}");
+        }
     }
+
     private void Move()
     {
         if (characterController.isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
         }
+        else
+        {
+            velocity.y += gravity * Time.deltaTime;
+        }
+
         float MoveZ = Input.GetAxis("Vertical");
         float MoveX = Input.GetAxis("Horizontal");
 
@@ -62,37 +72,44 @@ public class playerMovement : MonoBehaviour
             Run();
         }
 
-        if(characterController.isGrounded) 
+        if (characterController.isGrounded)
         {
             if (Input.GetKey(KeyCode.Space)) // jump
             {
-                jump();
+                Jump();
             }
             if (moveDirection != Vector3.zero)// idle
             {
-                idle();
+                Idle();
             }
         }
 
-        characterController.Move(moveDirection * moveSpeed * Time.deltaTime);
-
-        velocity.y += gravity * Time.deltaTime; // applies gravity
-        characterController.Move(velocity * Time.deltaTime);
+        // Move the character
+        characterController.Move((moveDirection * moveSpeed + velocity) * Time.deltaTime);
     }
+
     private void Walk()
     {
-        moveDirection *= walkSpeed;
+        characterController.Move(moveDirection * walkSpeed * Time.deltaTime);
     }
+
     private void Run()
     {
-        moveDirection *= runSpeed;
+        characterController.Move(moveDirection * runSpeed * Time.deltaTime);
     }
-    private void jump()
+
+    private void Jump()
     {
         velocity.y = Mathf.Sqrt(jumpheight * -2 * gravity);
     }
-    private void idle()
-    {
 
+    private void Idle()
+    {
+        // Add idle behavior here if needed
+    }
+
+    public void SetPlayerMovementEnabled(bool enable)
+    {
+        isPlayerMovementEnabled = enable;
     }
 }
