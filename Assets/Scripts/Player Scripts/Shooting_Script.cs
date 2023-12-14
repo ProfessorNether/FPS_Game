@@ -44,7 +44,7 @@ public class Shooting_Script : MonoBehaviour
                     deathCount++;
                     Destroy(hit.collider.gameObject);
                     
-                    if (deathCount >= 10)
+                    if (deathCount >= 20)
                     {
                         if (panel != null)
                         {

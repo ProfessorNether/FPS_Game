@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void Level1()
+    public void PlagueWood()
     {
         SceneManager.LoadScene("Controls");
     }
@@ -13,6 +13,11 @@ public class MainMenu : MonoBehaviour
     public void Main_Menu()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void LevelSelector()
+    {
+        SceneManager.LoadScene("levelSelect");
     }
 
     public void Quit_Game()

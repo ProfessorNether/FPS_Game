@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
 {
     public NavMeshAgent enemy;
 
-    public float squareOfMovement = 35f;
+    public float squareOfMovement = 55f;
     private float xMin;
     private float xMax;
     private float zMin;

@@ -6,7 +6,7 @@ public class Enemy_Spawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public GameObject enemy2;
-    public int enemyCount = 10;
+    public int enemyCount = 20;
 
     // Start is called before the first frame update
     void Start()
