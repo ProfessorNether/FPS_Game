@@ -35,14 +35,14 @@ public class playerMovement : MonoBehaviour
     {
         if (isPlayerMovementEnabled)
         {
-            Debug.Log($"Gravity: {gravity}, Velocity: {velocity.y}");
+            //Debug.Log($"Gravity: {gravity}, Velocity: {velocity.y}");
 
             Move();
         }
-        else
-        {
-            Debug.Log($"Gravity: {gravity}, Velocity: {velocity.y}");
-        }
+        //else
+        //{
+        //    Debug.Log($"Gravity: {gravity}, Velocity: {velocity.y}");
+        //}
     }
 
     private void Move()

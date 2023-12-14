@@ -13,31 +13,35 @@ public class PlayerHealth : MonoBehaviour
 
     public bool panelOpened = false;
     public playerMovement playerMovementScript;
-
+    private CameraRotation cameraRotationScript;
 
     void Start()
     {
         
         currentHealth = maxHealth;
         healthBar.setMaxHealth(maxHealth);
-      
-}
+        cameraRotationScript = GetComponentInChildren<CameraRotation>();
+
+    }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) 
-        {
-            TakeDamage(10);
+        //if (Input.GetKeyDown(KeyCode.Space)) 
+        //{
+        //    TakeDamage(10);
         
-        }
+        //}
 
+        //if the player is on 0 HP open the panel if it is already not openened
         if (currentHealth <= 0.01f && !panelOpened)
         {
-            Debug.Log("IT FUCKING FUCKING WORKS!");
+            
             if (panel != null)
             {
+                cameraRotationScript.OnPanelOpened();
                 panelOpened = true;  // Set the flag to true to prevent repeated opening
                 panel.SetActive(true);
                 playerMovementScript.SetPlayerMovementEnabled(false);
+                
             }
         }
     }
