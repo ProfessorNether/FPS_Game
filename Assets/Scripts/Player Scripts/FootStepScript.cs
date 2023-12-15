@@ -5,65 +5,48 @@ using UnityEngine;
 public class FootStepScript : MonoBehaviour
 {
     public GameObject footstep;
+    public PauzeMenu menu;
+    public CharacterController characterController;
 
-    // Start is called before the first frame update
     void Start()
     {
         footstep.SetActive(false);
+        menu = FindObjectOfType<PauzeMenu>();
+        characterController = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey("w"))
+        if (!PauzeMenu.isPaused && characterController.isGrounded)
         {
-            footsteps();
+            if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
+            {
+                footsteps();
+            }
+            else
+            {
+                StopFootsteps();
+            }
         }
-
-        if (Input.GetKeyDown("s"))
-        {
-            footsteps();
-        }
-
-        if (Input.GetKeyDown("a"))
-        {
-            footsteps();
-        }
-
-        if (Input.GetKeyDown("d"))
-        {
-            footsteps();
-        }
-
-        if (Input.GetKeyUp("w"))
+        else
         {
             StopFootsteps();
         }
-
-        if (Input.GetKeyUp("s"))
-        {
-            StopFootsteps();
-        }
-
-        if (Input.GetKeyUp("a"))
-        {
-            StopFootsteps();
-        }
-
-        if (Input.GetKeyUp("d"))
-        {
-            StopFootsteps();
-        }
-
     }
 
     void footsteps()
     {
-        footstep.SetActive(true);
+        if (!footstep.activeSelf)
+        {
+            footstep.SetActive(true);
+        }
     }
 
     void StopFootsteps()
     {
-        footstep.SetActive(false);
+        if (footstep.activeSelf)
+        {
+            footstep.SetActive(false);
+        }
     }
 }
