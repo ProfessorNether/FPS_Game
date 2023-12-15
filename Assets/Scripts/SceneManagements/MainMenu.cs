@@ -5,6 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public void StartLoadingScreenWithDelay()
+    {
+        // Start the LoadingScreen coroutine after 3 seconds
+        StartCoroutine(LoadingScreenWithDelay(1.0f));
+    }
+
+    public IEnumerator LoadingScreenWithDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene("Loading Screen");
+    }
+
     public void PlagueWood()
     {
         SceneManager.LoadScene("Controls");

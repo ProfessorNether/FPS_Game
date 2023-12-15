@@ -1001,7 +1001,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2110293666}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: PlagueWood
+        m_MethodName: StartLoadingScreenWithDelay
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1567,7 +1567,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1503245962
 Transform:
   m_ObjectHideFlags: 0
