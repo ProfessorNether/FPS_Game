@@ -12,7 +12,9 @@ public class Shooting_Script : MonoBehaviour
     private RaycastHit hit;
     private Ray ray;
     private int deathCount;
+
     public AudioSource clickSound;
+    public AudioSource VictorySound;
 
     private CameraRotation cameraRotationScript;
     private playerMovement playerMovementScript;
@@ -24,6 +26,7 @@ public class Shooting_Script : MonoBehaviour
         playerMovementScript = GetComponent<playerMovement>();
         cameraRotationScript = GetComponentInChildren<CameraRotation>();
         clickSound = GameObject.Find("Crossbow Sound").GetComponent<AudioSource>();
+        VictorySound = GameObject.Find("Winning Sound").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -48,6 +51,7 @@ public class Shooting_Script : MonoBehaviour
                     {
                         if (panel != null)
                         {
+                            VictorySound.Play();
                             panelOpened = true; // Set panelOpened to true when the panel opens
                             panel.SetActive(true);
                             // Disable player movement when the panel opens

@@ -14,6 +14,7 @@ public class PlayerHealth : MonoBehaviour
     public bool panelOpened = false;
     public playerMovement playerMovementScript;
     private CameraRotation cameraRotationScript;
+    public AudioSource FailSound;
 
     void Start()
     {
@@ -21,6 +22,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = maxHealth;
         healthBar.setMaxHealth(maxHealth);
         cameraRotationScript = GetComponentInChildren<CameraRotation>();
+        FailSound = GameObject.Find("Losing Sound").GetComponent<AudioSource>();
 
     }
     void Update()
@@ -37,6 +39,7 @@ public class PlayerHealth : MonoBehaviour
             
             if (panel != null)
             {
+                FailSound.Play();
                 cameraRotationScript.OnPanelOpened();
                 panelOpened = true;  // Set the flag to true to prevent repeated opening
                 panel.SetActive(true);
