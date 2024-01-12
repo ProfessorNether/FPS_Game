@@ -1,52 +1,52 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Shooting_Script : MonoBehaviour
 {
     public Camera Cam;
     public GameObject panel;
-
-    public bool panelOpened = false; // Add this line to declare the public bool
+    public bool panelOpened = false;
 
     private RaycastHit hit;
     private Ray ray;
     private int deathCount;
+    private int remainingEnemies = 20;
 
     public AudioSource clickSound;
     public AudioSource VictorySound;
     public AudioSource[] npcHitSounds;
-    public PauzeMenu menu;  
+    public PauzeMenu menu;
+    public TextMeshProUGUI enemyCounterText;
 
     private CameraRotation cameraRotationScript;
     private playerMovement playerMovementScript;
-    
-    // Start is called before the first frame update
+
     void Start()
     {
-        // Assuming the player movement script is on the same GameObject as this script
         playerMovementScript = GetComponent<playerMovement>();
         cameraRotationScript = GetComponentInChildren<CameraRotation>();
+
+        // You don't need to find the audio sources if they are assigned in the inspector.
+        // Remove the following lines if audio sources are assigned in the inspector.
         clickSound = GameObject.Find("Crossbow Sound").GetComponent<AudioSource>();
         VictorySound = GameObject.Find("Winning Sound").GetComponent<AudioSource>();
-        menu = FindObjectOfType<PauzeMenu>();
-
-        npcHitSounds = new AudioSource[3]; // Assuming you have 3 NPC hit sounds
+        npcHitSounds = new AudioSource[3];
         for (int i = 0; i < 3; i++)
         {
             npcHitSounds[i] = GameObject.Find("NPC Hit Sound " + (i + 1)).GetComponent<AudioSource>();
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!PauzeMenu.isPaused)
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if (!panelOpened)
+                if (!panelOpened && clickSound != null && clickSound.enabled)
                 {
                     clickSound.Play();
                 }
@@ -54,32 +54,22 @@ public class Shooting_Script : MonoBehaviour
 
                 if (Physics.Raycast(ray, out hit))
                 {
-                    if (hit.collider.tag.Equals("NPC"))
+                    if (hit.collider.CompareTag("NPC")) // Use CompareTag for performance
                     {
+                        remainingEnemies--;
+                        UpdateEnemyCounter();
                         deathCount++;
                         Destroy(hit.collider.gameObject);
 
-                        // Play a random NPC hit sound
                         int randomIndex = Random.Range(0, npcHitSounds.Length);
                         if (npcHitSounds[randomIndex] != null)
                         {
                             npcHitSounds[randomIndex].Play();
                         }
 
-                        if (deathCount >= 20)
+                        if (remainingEnemies <= 0)
                         {
-                            if (panel != null)
-                            {
-                                VictorySound.Play();
-                                panelOpened = true; // Set panelOpened to true when the panel opens
-                                panel.SetActive(true);
-                                // Disable player movement when the panel opens
-                                playerMovementScript.SetPlayerMovementEnabled(false);
-
-                                // Call OnPanelOpened method in CameraRotationScript
-                                cameraRotationScript.OnPanelOpened();
-                            }
-
+                            HandleGameWin();
                         }
                     }
                 }
@@ -87,10 +77,50 @@ public class Shooting_Script : MonoBehaviour
         }
     }
 
-        // Call this method when the panel is closed
-        public void ClosePanel()
+    void HandleGameWin()
     {
-        panelOpened = false;  // Assuming you have a variable like this in your script
+        if (panel != null)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Time.timeScale = 0f;
+            VictorySound.Play();
+            panelOpened = true;
+            panel.SetActive(true);
+            playerMovementScript.SetPlayerMovementEnabled(false);
+            //cameraRotationScript.OnPanelOpened();
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
+    public void ClosePanel()
+    {
+        panelOpened = false;
         cameraRotationScript.OnPanelClosed();
+    }
+
+    void UpdateEnemyCounter()
+    {
+        if (enemyCounterText != null)
+        {
+            enemyCounterText.text = "Enemies Remaining: " + remainingEnemies;
+        }
+    }
+
+    public bool IsPanelOpened()
+    {
+        return panelOpened;
+    }
+
+    public void DisableClickSound()
+    {
+        if (clickSound != null)
+        {
+            clickSound.enabled = false;
+        }
     }
 }

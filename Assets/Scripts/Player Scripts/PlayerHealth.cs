@@ -39,12 +39,25 @@ public class PlayerHealth : MonoBehaviour
             
             if (panel != null)
             {
+                Time.timeScale = 0f;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+
                 FailSound.Play();
-                cameraRotationScript.OnPanelOpened();
+                if (cameraRotationScript != null)
+                {
+                    cameraRotationScript.OnPanelOpened();
+                }
+                
                 panelOpened = true;  // Set the flag to true to prevent repeated opening
                 panel.SetActive(true);
                 playerMovementScript.SetPlayerMovementEnabled(false);
-                
+
+                Shooting_Script shootingScript = GetComponent<Shooting_Script>();
+                if (shootingScript != null && !shootingScript.IsPanelOpened())
+                {
+                    shootingScript.DisableClickSound();
+                }
             }
         }
     }

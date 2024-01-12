@@ -5,25 +5,28 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void StartLoadingScreenWithDelay()
-    {
-        // Start the LoadingScreen coroutine after 3 seconds
-        StartCoroutine(LoadingScreenWithDelay(1.0f));
-    }
+    public GameObject optionsScreen;
 
-    public IEnumerator LoadingScreenWithDelay(float delay)
+    //public void Start()
+    //{
+    //    optionsScreen.SetActive(false);
+    //}
+
+    public void LoadingScreenWithDelay()
     {
-        yield return new WaitForSeconds(delay);
+        Time.timeScale = 1f;
         SceneManager.LoadScene("Loading Screen");
     }
 
     public void PlagueWood()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("Controls");
     }
 
     public void Main_Menu()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -37,8 +40,24 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("GameInfo");
     }
 
+    public void MountainLevel()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Mountain Ruins");
+    }
+
     public void Quit_Game()
     {
         Application.Quit();
+    }
+
+    //options settings
+    public void OpenOptions()
+    {
+        optionsScreen.SetActive(true);
+    }
+    public void CloseOptions()
+    {
+        optionsScreen.SetActive(false);
     }
 }

@@ -1,5 +1,5 @@
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor.Experimental.GraphView;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -100,7 +100,10 @@ public class playerMovement : MonoBehaviour
 
     private void Jump()
     {
-        velocity.y = Mathf.Sqrt(jumpheight * -2 * gravity);
+        if (characterController.isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(jumpheight * -2 * gravity);
+        }
     }
 
     private void Idle()

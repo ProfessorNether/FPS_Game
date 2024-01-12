@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Loading Screen.unity
     guid: 63fc2095c69f1ce48bfca4c39d1eedae
+  - enabled: 1
+    path: Assets/Scenes/Mountain Ruins.unity
+    guid: 5be59a52357a02740be6e6151a7b0bea
   m_configObjects: {}
